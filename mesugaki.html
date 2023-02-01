@@ -1,0 +1,166 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>磁小鬼生成器</title>
+    <style>
+        .logo {
+            border-radius: 6px;
+        }
+
+        #inputDiv {
+            border: 1px solid black;
+            display: inline-block;
+            border-radius: 6px 6px;
+            padding: 10px;
+        }
+
+        #inputButton {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div align="center" style="padding: 0">
+        <b>磁小鬼生成器 1.0</b>
+
+        <br />
+        <img src="resources/img/artemisPointy.png" width="64" height="64" class="logo" title="混蛋！鼠标放哪里呢...">
+
+        <img src="resources/img/apolloPointy.png" width="64" height="64" class="logo" title="鼠标...不、不可以！">
+        <hr />
+        <span>来这里的杂鱼♥~不用想就知道是想被本座捉弄的吧♥~嘿嘿嘿~</span>
+        <br />
+        <br />
+        <div id="inputDiv">
+            <table>
+                <tr>
+                    <td><span title="可不要跟我说你就叫变态大叔哦♥~">嘻~输入你的名字吧~</span></td>
+                    <td><input type="text" placeholder="变态大叔♥~留白来随机哦~" id="yourName" /></td>
+                </tr>
+                <tr>
+                    <td><span title="连这个都想不起来的杂鱼大笨猪~">至于我叫什么，杂鱼的你不用多说了吧~</span></td>
+                    <td><input type="text" placeholder="你觉得呢？要不然随机？" id="myName" /></td>
+                </tr>
+                <tr>
+                    <td><span title="变态大叔脑子里该不会都是污秽的想法吧~">想对本座干些什么呢~</span></td>
+                    <td><input type="text" placeholder="笨蛋~可不要太变态哦~" id="didName" /></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><input type="button" id="inputButton" value="好的~准备好被狠狠的捉弄吧♥~" title="笨蛋" onclick="GenerateAndApply();" /></td>
+                </tr>
+            </table>
+        </div>
+        <div id="outputDiv">
+
+        </div>
+    </div>
+    <script>
+        const yourNameElement = document.getElementById("yourName");
+        const myNameElement = document.getElementById("myName");
+        const didNameElement = document.getElementById("didName");
+        const outputDiv = document.getElementById("outputDiv");
+
+        // 苯人从未知网站复制粘贴的代码
+        String.prototype.format = function () {
+            var args = arguments;
+            return this.replace(/{([0-9]+)}/g, function (match, index) {
+                return typeof args[index] == 'undefined' ? match : args[index];
+            });
+        };
+
+        // 一大堆屎山字符串我服了 {0}yourName/postfix {1}myName {2}didName
+        const mesugaki = {
+            random: [
+                [
+                    ["玩家", "普蕾尔"],
+                    ["01", "XS-01", "阿尔忒密斯", "03", "XS-03", "阿波罗"],
+                    ["从杂鱼♥master手中召唤出{0}大人", "偷吃{0}大人的小电池", "暴打{0}大人的哥哥"]
+                ],
+                [
+                    ["玩家", "普蕾尔"],
+                    ["00", "XP-00", "修普诺斯"],
+                    ["从杂鱼♥master手中召唤出{0}大人", "偷吃{0}大人的小电池", "偷吃{0}大人的飞眼怪", "暴打{0}大人的飞眼怪"]
+                ]
+            ],
+            headers: [// {0} yourName
+                '嘿嘿嘿~',
+                '杂鱼♥~杂鱼♥~',
+                '嘻~',
+                '笨蛋♥~',
+                '大笨猪~',
+                '噫♥~',
+                '小{0}♥~'
+            ],
+            pronouns: [
+                "杂鱼",
+                "笨蛋",
+                "大笨猪"
+            ],
+            postfixes: [
+                '杂鱼小{0}',
+                '变态小{0}',
+                "小{0}"
+            ],
+            fullNames: [// {0}yourName {1}didname {2}myName
+                "想{1}的{0}",
+                "敢{1}的{0}",
+                "{1}的{0}",
+                "以为{1}了就能征服{2}大人的{0}"
+            ],
+            misc: [
+                "又杂鱼又恶心",
+                "被捉弄一下就会哭很久吧"
+            ],
+            // {0}yourName {1}postfix {2}fullName {3}header {4}misc {5}didName {6}pronoun
+            bodies: [
+                "{3}是{0}欸~是{2}欸♥~几天不见真的是越来越杂鱼和恶心了♥~{1}♥~{4}♥~",
+                "哈哈哈哈哈哈哈{1}{5}不成居然反被捉弄了~{1}~{4}~{3}",
+                "杂鱼杂鱼杂鱼~最杂鱼了♥~{2}♥~{3}{4}~{1}♥~",
+                "说吧~{1}想干什么♥~该不会是{5}吧~那也太杂鱼了吧~也确实是像你这种{6}爱干的事呢♥~{3}"
+            ]
+        }
+
+        function randomInt(minInt, maxInt) { // including max & min
+            return parseInt(Math.random() * maxInt) + minInt;
+        }
+
+        function randomInList(list) {
+            return list[randomInt(0, list.length)];
+        }
+
+        function DoGenerate(yourName, myName, didName = "") {
+            return randomInList(mesugaki.bodies).format(
+                    yourName,
+                    randomInList(mesugaki.postfixes).format(yourName),
+                randomInList(mesugaki.fullNames).format(yourName, didName.format(myName), myName),
+                randomInList(mesugaki.headers).format(yourName),
+                randomInList(mesugaki.misc),
+                didName.format(myName),
+                randomInList(mesugaki.pronouns)
+                );
+        }
+
+        function GenerateAndApply() {
+            var yourName = yourNameElement.value;
+            var myName = myNameElement.value;
+            var didName = didNameElement.value;
+            var random = randomInList(mesugaki.random)
+            if (yourName == "") {
+                yourName = randomInList(random[0]);
+                yourNameElement.value = yourName;
+            }
+            if (myName == "") {
+                myName = randomInList(random[1]);
+                myNameElement.value = myName;
+            }
+            if (didName == "") {
+                didName = randomInList(random[2]);
+                didNameElement.value = didName;
+            }
+            outputDiv.textContent = DoGenerate(yourName , myName, didName);
+        }
+    </script>
+</body>
+</html>
