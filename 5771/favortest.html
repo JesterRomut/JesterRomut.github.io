@@ -1,0 +1,406 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>忘却前夜角色好感度测试</title>
+    <style>
+      body {
+        align-items: center;
+        align-content: center;
+        text-align: center;
+
+        background-color: #464646;
+        color: white;
+        margin: 0;
+      }
+
+      table {
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      #start {
+        margin-top: 20%;
+        display: inline-block;
+        width: 10vw;
+        height: 8vh;
+      }
+
+      #choose {
+        margin-top: 10vh;
+      }
+
+      .stage {
+        display: block;
+      }
+
+      img {
+        width: 20vw;
+        object-fit: cover;
+        object-position: center;
+      }
+
+      #debug {
+        margin: 5%;
+        display: inline-block;
+      }
+
+      #choices {
+        border-collapse: separate;
+        border-spacing: 5rem 0;
+      }
+
+      #choices td {
+        background-color: white;
+        border-radius: 2rem;
+        border-spacing: 5rem 0;
+
+        box-shadow: rgba(0, 0, 0, 0.2) 0 3px 5px -1px,
+          rgba(0, 0, 0, 0.14) 0 6px 10px 0, rgba(0, 0, 0, 0.12) 0 1px 18px 0;
+      }
+
+      /* CSS */
+      .button-17 {
+        align-items: center;
+        appearance: none;
+        background-color: #fff;
+        border-radius: 24px;
+        border-style: none;
+        box-shadow: rgba(0, 0, 0, 0.2) 0 3px 5px -1px,
+          rgba(0, 0, 0, 0.14) 0 6px 10px 0, rgba(0, 0, 0, 0.12) 0 1px 18px 0;
+        box-sizing: border-box;
+        color: #3c4043;
+        cursor: pointer;
+        display: inline-flex;
+        fill: currentcolor;
+        font-family: "Google Sans", Roboto, Arial, sans-serif;
+        font-size: 14px;
+        font-weight: 500;
+        height: 48px;
+        justify-content: center;
+        letter-spacing: 0.25px;
+        line-height: normal;
+        max-width: 100%;
+        overflow: visible;
+        padding: 2px 24px;
+        position: relative;
+        text-align: center;
+        text-transform: none;
+        transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1),
+          opacity 15ms linear 30ms,
+          transform 270ms cubic-bezier(0, 0, 0.2, 1) 0ms;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+        width: auto;
+        will-change: transform, opacity;
+        z-index: 0;
+      }
+
+      .button-17:hover {
+        background: #f6f9fe;
+        color: #174ea6;
+      }
+
+      .button-17:active {
+        box-shadow: 0 4px 4px 0 rgb(60 64 67 / 30%),
+          0 8px 12px 6px rgb(60 64 67 / 15%);
+        outline: none;
+      }
+
+      .button-17:focus {
+        outline: none;
+        border: 2px solid #4285f4;
+      }
+
+      .button-17:not(:disabled) {
+        box-shadow: rgba(60, 64, 67, 0.3) 0 1px 3px 0,
+          rgba(60, 64, 67, 0.15) 0 4px 8px 3px;
+      }
+
+      .button-17:not(:disabled):hover {
+        box-shadow: rgba(60, 64, 67, 0.3) 0 2px 3px 0,
+          rgba(60, 64, 67, 0.15) 0 6px 10px 4px;
+      }
+
+      .button-17:not(:disabled):focus {
+        box-shadow: rgba(60, 64, 67, 0.3) 0 1px 3px 0,
+          rgba(60, 64, 67, 0.15) 0 4px 8px 3px;
+      }
+
+      .button-17:not(:disabled):active {
+        box-shadow: rgba(60, 64, 67, 0.3) 0 4px 4px 0,
+          rgba(60, 64, 67, 0.15) 0 8px 12px 6px;
+      }
+
+      .button-17:disabled {
+        box-shadow: rgba(60, 64, 67, 0.3) 0 1px 3px 0,
+          rgba(60, 64, 67, 0.15) 0 4px 8px 3px;
+      }
+
+      #winner {
+        margin-left: auto;
+        margin-right: auto;
+
+        float: inherit;
+
+        display: flex;
+        flex-direction: row;
+        margin: 0;
+        padding: 0;
+
+        border: 2px solid white;
+        border-radius: 5rem;
+        overflow: hidden;
+
+        line-height: 200px;
+      }
+
+      #wrapper {
+        width: 30rem;
+        display: inline-block;
+        padding-top: 6rem;
+      }
+
+      #winner div::after {
+        content: "";
+        clear: both;
+        display: table;
+      }
+
+      #winner div {
+        flex: 1;
+        overflow: hidden;
+      }
+
+      #winner-pic {
+        max-width: 40vw;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="stage1" class="stage">
+      <button onclick="setStage(2);" id="start" class="button-17">
+        启动！
+      </button>
+    </div>
+    <div id="stage2" class="stage">
+      <table id="choose">
+        <tr>
+          <td colspan="2">
+            <span id="debug">你更喜欢谁</span>
+          </td>
+        </tr>
+        <tr id="choices">
+          <td onclick="choose(true)"><img src="" id="left" /></td>
+          <td onclick="choose(false)">
+            <img src="" id="right" />
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div id="stage3" class="stage">
+      <div id="wrapper">
+        <div id="winner">
+          <div style="background-color: white; color: black; padding: 5% 0%">
+            你最喜欢的唤醒体是：
+            <h1 id="winner-text">哇袄</h1>
+          </div>
+          <div
+            style="display: flex; justify-content: center; align-items: center"
+          >
+            <img src="" id="winner-pic" />
+          </div>
+        </div>
+      </div>
+      <br />
+      <span id="details"></span>
+    </div>
+
+    <script>
+      const Team = Object.freeze({
+        YELLOW: { name: "混沌", hex: "#ebd586" },
+        RED: { name: "血肉", hex: "#d06763" },
+        BLUE: { name: "深海", hex: "#7dace9" },
+        PURPLE: { name: "超维", hex: "#a67eef" },
+      });
+
+      class Character {
+        constructor(name, img, team) {
+          this.img = img;
+          this.name = name;
+          this.team = team;
+        }
+      }
+      const characters = [
+        new Character("拉蒙娜", "characters/ramona.png", Team.YELLOW),
+        new Character("朵尔", "characters/doll.png", Team.YELLOW),
+        new Character("奥吉尔", "characters/ogier.png", Team.YELLOW),
+        new Character("萝坦", "characters/lotan.png", Team.YELLOW),
+        new Character("宁菲亚", "characters/nymphaea.png", Team.YELLOW),
+        new Character("莉莉", "characters/lily.png", Team.YELLOW),
+        new Character("潘狄娅", "characters/pandia.png", Team.YELLOW),
+        new Character("「24」", "characters/mason.png", Team.YELLOW),
+        new Character("艾尔瓦", "characters/alva.png", Team.YELLOW),
+        new Character("莱克", "characters/dog.png", Team.YELLOW),
+        new Character("珈伦", "characters/karen.png", Team.YELLOW),
+        new Character("诺缔拉", "characters/nautila.png", Team.YELLOW),
+        new Character("环行·拉蒙娜", "characters/ramona_loop.png", Team.YELLOW),
+
+        new Character("弥利亚姆", "characters/miryam.png", Team.BLUE),
+        new Character("墨菲", "characters/murphy.png", Team.BLUE),
+        new Character("珊", "characters/sanga.png", Team.BLUE),
+        new Character("法洛思", "characters/faros.png", Team.BLUE),
+        new Character("希莱斯特", "characters/celeste.png", Team.BLUE),
+        new Character("凯刻斯", "characters/caecus.png", Team.BLUE),
+        new Character("奥瑞塔", "characters/aurita.png", Team.BLUE),
+        new Character("戈利亚", "characters/golia.png", Team.BLUE),
+        new Character("图鲁", "characters/tulu.png", Team.BLUE),
+
+        new Character("泰旖丝", "characters/thais.png", Team.RED),
+        new Character("索蕾尔", "characters/sorel.png", Team.RED),
+        new Character("尤乌哈希", "characters/uvhash.png", Team.RED),
+        new Character("雷娅", "characters/leia.png", Team.RED),
+        new Character("阿格里帕", "characters/agripa.png", Team.RED),
+        new Character("菲茵特", "characters/faint.png", Team.RED),
+        new Character("萨尔瓦多", "characters/salvador.png", Team.RED),
+        new Character("艾继丝", "characters/aigis.png", Team.RED),
+        new Character("希洛", "characters/hilo.png", Team.RED),
+
+        new Character("达芙黛尔", "characters/daffodil.png", Team.PURPLE),
+        new Character("温柯尔", "characters/winkle.png", Team.PURPLE),
+        new Character("奥尔拉", "characters/horla.png", Team.PURPLE),
+        new Character("艾瑞卡", "characters/erika.png", Team.PURPLE),
+        new Character("莉兹", "characters/liz.png", Team.PURPLE),
+        new Character("卡茜亚", "characters/cassia.png", Team.PURPLE),
+        new Character("汀克特", "characters/tinct.png", Team.PURPLE),
+        new Character("詹金", "characters/jenkin.png", Team.PURPLE),
+        new Character("旺达", "characters/wanda.png", Team.PURPLE),
+      ];
+
+      let i = 0;
+      let j = 0;
+
+      function shuffle(array) {
+        let currentIndex = array.length;
+
+        // While there remain elements to shuffle...
+        while (currentIndex != 0) {
+          // Pick a remaining element...
+          let randomIndex = Math.floor(Math.random() * currentIndex);
+          currentIndex--;
+
+          // And swap it with the current element.
+          [array[currentIndex], array[randomIndex]] = [
+            array[randomIndex],
+            array[currentIndex],
+          ];
+        }
+      }
+
+      shuffle(characters);
+      console.log(characters);
+
+      function setStage(id) {
+        function hideStage(stage) {
+          stage.style.display = "none";
+        }
+        function showStage(stage) {
+          stage.style.display = "block";
+        }
+        let stage1 = document.getElementById("stage1");
+        let stage2 = document.getElementById("stage2");
+        let stage3 = document.getElementById("stage3");
+        switch (id) {
+          case 3:
+            showStage(stage3);
+            hideStage(stage1);
+            hideStage(stage2);
+            break;
+          case 2:
+            showStage(stage2);
+            hideStage(stage1);
+            hideStage(stage3);
+            break;
+          case 1:
+          default:
+            showStage(stage1);
+            hideStage(stage2);
+            hideStage(stage3);
+            break;
+        }
+      }
+      // 冒泡排序
+      let compared = false;
+
+      function nextPair() {
+        j++;
+
+        if (j >= characters.length - 1 - i) {
+          j = 0;
+          i++;
+          if (!compared || i >= characters.length - 1) {
+            // stop
+            setStage(3);
+            generateReport();
+          }
+        }
+      }
+
+      function choose(left = false) {
+        if (left) {
+          let tmp = characters[j];
+          characters[j] = characters[j + 1];
+          characters[j + 1] = tmp;
+
+          compared = true;
+        }
+
+        nextPair();
+        syncLeftRight();
+      }
+      function syncLeftRight() {
+        function setCharacter(slot, character) {
+          slot.src = character.img;
+          slot.alt = character.name;
+          slot.title = character.name;
+        }
+        let left = document.getElementById("left");
+        let right = document.getElementById("right");
+
+        setCharacter(left, characters[j]);
+        setCharacter(right, characters[j + 1]);
+
+        // let debug = document.getElementById("debug");
+        // debug.innerHTML = characters
+        //   .map(function (item) {
+        //     return item.name;
+        //   })
+        //   .toString();
+      }
+
+      function generateReport() {
+        const reversed = characters.reverse();
+
+        let winnerPic = document.getElementById("winner-pic");
+        let winnerText = document.getElementById("winner-text");
+
+        winnerText.innerHTML = reversed[0].name;
+        winnerPic.src = reversed[0].img;
+
+        let details = document.getElementById("details");
+        let detailString = "";
+
+        for (let i = 0; i < reversed.length; i++) {
+          detailString += `<b>第${i + 1}名</b>: ${reversed[i].name}<br/>`;
+        }
+        details.innerHTML = detailString;
+      }
+
+      setStage(1);
+      syncLeftRight();
+    </script>
+  </body>
+</html>
