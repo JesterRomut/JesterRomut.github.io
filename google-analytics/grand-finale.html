@@ -5,15 +5,37 @@
     <title>Grand Finale</title>
 </head>
 <body>
-Hello World!
+<div style="position: relative;" id="embedContainer">
+    Hello World!
+</div>
+</body>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-Y91TMDN1PB"></script>
-<script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+<script type="text/javascript" charset="utf-8">
+    function inIframe () {
+        try {
+            return window.self !== window.top;
+        } catch (e) {
+            return false;
+        }
+    }
 
-    gtag('config', 'G-Y91TMDN1PB');
+    function doAnalytics() {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-Y91TMDN1PB');
+    }
+
+    var embedContainer = document.getElementById("embedContainer");
+
+    if (inIframe()) {
+        // It's ok
+        doAnalytics();
+    } else {
+        // not in notion
+        embedContainer.innerHTML = "";
+    }
 </script>
-</body>
 </html>
